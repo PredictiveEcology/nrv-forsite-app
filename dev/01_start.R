@@ -22,11 +22,26 @@ golem::fill_desc(
   pkg_name = "nrv.forsite.app", # The name of the golem package containing the app (typically lowercase, no underscore or periods)
   pkg_title = "Shiny App For Exploring FORSITE NRV Simulation Outputs",
   pkg_description = "Build and deploy FORSITE NRV shiny app.",
-  authors = person(
-    given = "Alex M.",
-    family = "Chubaty",
-    email = "achubaty@for-cast.ca",
-    role = c("aut", "cre") # Your role (here author/creator)
+  authors = c(
+    person(
+      given = "Alex M.",
+      family = "Chubaty",
+      role = c("aut", "cre"),
+      email = "achubaty@for-cast.ca",
+    ),
+    person(given = "Peter", family = "Solymos", role = c("aut"), email = "peter@analythium.io"),
+    person(
+      given = "Michael",
+      family = "Thomas",
+      role = c("ctb"),
+      email = "mthomas@ketchbrookanalytics.com"
+    ),
+    person(
+      given = "Brad",
+      family = "Lindblad",
+      role = c("ctb"),
+      email = "blindblad@ketchbrookanalytics.com"
+    )
   ),
   repo_url = "https://github.com/FOR-CAST/nrv-forsite-app",
   pkg_version = "0.0.0.9000",

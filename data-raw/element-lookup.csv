@@ -1,0 +1,13 @@
+group,species_code,common_name,scientific_name,french,full_extent,year_start,year_end,year_interval,download,notes
+tree,tree-abie-bal,Balsam Fir,Abies balsamea,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+tree,tree-abie-las,Subalpine Fir,Abies lasiocarpa,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+tree,tree-betu-pap,Paper Birch,Betula pendula,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+tree,tree-lari-lar,Tamarack,Larix laricina,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+tree,tree-mixed,Mixed,,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+tree,tree-picea-gla,White Spruce,Picea glauca,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+tree,tree-picea-mar,Black Spruce,Picea mariana,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+tree,tree-pinu-ban,Jack Pine,Pinus banksiana,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+tree,tree-pinu-con,Lodgepole Pine,Pinus contorta,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+tree,tree-popu-tre,Trembling Aspen,Populus tremuloides,,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+landscape,burn,Cumulative burn,,,FALSE,2021,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"
+landscape,biomass,Biomass,,Biomasse,TRUE,2011,2100,10,TRUE,"<p><strong>Note:</strong> these results are preliminary, proceed with <em>caution</em>.</p>"

@@ -4,3 +4,12 @@
 .httr-oauth
 .DS_Store
 .quarto
+
+*.dbf
+*.gdb
+*.prj
+*.sbn
+*.sbx
+*.shp
+*.shx
+*.zip
