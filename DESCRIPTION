@@ -48,6 +48,7 @@ Remotes:
     FOR-CAST/nrvtools@development
 Encoding: UTF-8
 LazyData: true
+LazyDataCompression: gzip
 RoxygenNote: 7.3.3
 URL: https://github.com/FOR-CAST/nrv-forsite-app
 BugReports: https://github.com/FOR-CAST/nrv-forsite-app/issues
