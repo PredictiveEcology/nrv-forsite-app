@@ -104,7 +104,7 @@ mod_regions_server <- function(id) {
     # })
 
     # Update the options under "Element Name" based upon the selection in the
-    # "Element Type" radio button
+    # "Element Type" list
     observe({
       req(input$regions_element_type)
 

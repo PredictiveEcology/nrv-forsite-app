@@ -11,10 +11,8 @@ REGIONS <- list(
 )
 
 REGION_NAMES <- lapply(names(REGIONS), function(x) {
-  paste0(REGIONS[[x]]$NAME, " [", REGIONS[[x]]$ID, "]")
-}) |>
-  unlist() |>
-  unique() |>
-  sort()
+  paste0(REGIONS[[x]]$NAME, " [", REGIONS[[x]]$ID, "]") |> unique() |> sort()
+})
+names(REGION_NAMES) <- names(REGIONS)
 
 usethis::use_data(REGIONS, REGION_NAMES, overwrite = TRUE)

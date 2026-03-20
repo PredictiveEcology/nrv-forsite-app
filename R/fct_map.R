@@ -430,34 +430,20 @@ map_region <- function(region, base = FALSE) {
   # sometimes it is called geom, sometimes geometry
   # sf_col <- attr(STATS$regions, "sf_column")
   sf_col <- "geometry"
-  default_poly <- names(REGIONS)[1]
+  default_polys <- names(REGIONS)[1]
   region_id <- stringr::str_extract(region, "(?<=\\[).*(?=\\])")
-
-  # if (base) {
-  #   # Build the base map
-  #   plot(STATS$regions[default_poly, sf_col])
-  #
-  #   # Color the region on the map
-  #   plot(STATS$regions[region, sf_col], col = "gold", border = "tomato", add = TRUE)
-  # } else {
-  #   p <- ggplot2::ggplot(data = STATS$regions[default_poly, ]) +
-  #     ggplot2::geom_sf(col = "grey", fill = "grey") +
-  #     ggplot2::geom_sf(data = STATS$regions[region, ], fill = "gold") +
-  #     ggplot2::theme_minimal()
-  #   print(p)
-  # }
 
   if (base) {
     # Build the base map
-    plot(REGIONS[default_poly, sf_col])
+    plot(REGIONS[[default_polys]][, sf_col])
 
     # Color the region on the map
-    plot(REGIONS[[default_poly]][region, sf_col], col = "gold", border = "tomato", add = TRUE)
+    plot(REGIONS[[default_polys]][region, sf_col], col = "gold", border = "tomato", add = TRUE)
   } else {
     p <- ggplot2::ggplot() +
       ggplot2::geom_sf(data = CANPROVS, col = "black", fill = NA) +
       ggplot2::geom_sf(
-        data = dplyr::filter(REGIONS[[default_poly]], ID == region_id),
+        data = dplyr::filter(REGIONS[[default_polys]], ID == region_id),
         fill = "gold"
       ) +
       ggplot2::theme_minimal()

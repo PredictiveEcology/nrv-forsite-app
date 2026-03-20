@@ -103,7 +103,7 @@ mod_map_server <- function(id, elements) {
         selectInput(
           inputId = ns("map_region"),
           label = "Region:",
-          choices = REGIONS,
+          choices = REGION_NAMES,
           selected = current_selections$region
         ),
 
