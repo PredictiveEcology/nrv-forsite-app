@@ -5,10 +5,6 @@
 #' @param id,input,output,session Internal parameters for {shiny}.
 #'
 #' @noRd
-#'
-#' @importFrom leaflet addPolygons leafletOutput
-#' @importFrom shiny absolutePanel actionButton br icon NS tagList
-#' @importFrom shinyWidgets pickerInput
 mod_map_ui <- function(id) {
   ns <- NS(id)
   tagList(div(
@@ -27,10 +23,10 @@ mod_map_ui <- function(id) {
       left = "auto",
       right = 20,
       bottom = "auto",
-      width = 330,
+      width = 350,
       height = "auto",
 
-      shiny::br(),
+      br(),
 
       shinyWidgets::pickerInput(
         inputId = ns("map_element"),
@@ -66,34 +62,43 @@ mod_map_ui <- function(id) {
         )
       ),
 
-      # selectInput(
-      #   inputId = ns("map_scenario"),
-      #   label = "Scenario:",
-      #   choices = SCENARIOS,
-      #   selected = SCENARIOS[[1]]
-      # ),
+      bslib::card(
+        bslib::card_header("Forest degradation status"),
 
-      # selectInput(
-      #   inputId = ns("map_period"),
-      #   label = "Time Period:",
-      #   choices = get_period_choices(ELEMENTS[ELEMENTS$species_code == ELEMENT_NAMES$bird[[1]], ]),
-      #   selected = ELEMENTS[ELEMENTS$species_code == ELEMENT_NAMES$bird[[1]], "year_start"]
-      # ),
+        plotOutput(ns("nrv_status_waffle")),
 
-      shiny::actionButton(
+        bslib::value_box(
+          title = "Within NRV",
+          value = textOutput(ns("nrv_status_within")),
+          theme = bslib::value_box_theme(bg = "#006400") # "darkgreen"
+        ),
+
+        bslib::value_box(
+          title = "Marginally within NRV",
+          value = textOutput(ns("nrv_status_marginal")),
+          theme = bslib::value_box_theme(bg = "#DAA520") ## "goldenrod"
+        ),
+
+        bslib::value_box(
+          title = "Outside NRV",
+          value = textOutput(ns("nrv_status_outside")),
+          theme = bslib::value_box_theme(bg = "#A020F0") ## "purple"
+        )
+      ),
+
+      br(),
+
+      actionButton(
         inputId = ns("edit_map_settings"),
         label = "Change Preferences",
-        icon = shiny::icon("gear")
+        icon = icon("gear")
       )
     )
   ))
 }
 
-#' map Server Functions
+#' map server functions
 #'
-#' @importFrom leaflet renderLeaflet
-#' @importFrom shiny modalDialog NS observeEvent
-#' @importFrom shiny reactive reactiveValues removeModal selectInput showModal sliderInput
 #' @noRd
 mod_map_server <- function(id, elements) {
   moduleServer(id, function(input, output, session) {
@@ -105,12 +110,12 @@ mod_map_server <- function(id, elements) {
     # the modal.
     # Start by setting some defaults that will appear the first time the modal
     # is launched
-    current_selections <- shiny::reactiveValues(palette = "spectral", opacity = 0.3)
+    current_selections <- reactiveValues(palette = "spectral", opacity = 0.3)
 
     ## Modal ----
     # Create modal to hold all input widgets / filters
-    shiny::observeEvent(input$edit_map_settings, {
-      modal <- shiny::modalDialog(
+    observeEvent(input$edit_map_settings, {
+      modal <- modalDialog(
         title = "Set Map Preferences",
 
         selectInput(
@@ -133,84 +138,42 @@ mod_map_server <- function(id, elements) {
           value = current_selections$opacity
         ),
 
-        footer = shiny::actionButton(inputId = ns("close_modal"), label = "Apply"),
+        footer = actionButton(inputId = ns("close_modal"), label = "Apply"),
 
         size = "s",
         easyClose = TRUE
       )
 
-      shiny::showModal(modal)
+      showModal(modal)
     })
-
-    # Update "Period" choices when Species changes
-    # shiny::observeEvent(input$map_element, {
-    #   # ... update the choices in the "Period" dropdown filter list
-    #   updateSelectInput(
-    #     session = session,
-    #     inputId = "map_period",
-    #     choices = get_period_choices(ELEMENTS[ELEMENTS$species_code == input$map_element, ])
-    #   )
-    # })
 
     # When the "Apply" button is clicked in the modal, capture the inputs to
     # apply when the modal is re-launched
-    shiny::observeEvent(input$close_modal, {
+    observeEvent(input$close_modal, {
       current_selections$palette <- input$map_palette
       current_selections$opacity <- input$map_opacity
 
-      shiny::removeModal(session = session)
+      removeModal(session = session)
     })
-
-    # Create the reactive URL to the tif files on the API server
-    # url <- shiny::reactive({
-    #   make_api_path(
-    #     root = paste0(get_golem_config("app_baseurl"), "api"),
-    #     api_ver = "1",
-    #     access = "public",
-    #     project = "wbi",
-    #     region = current_selections$region,
-    #     kind = "elements",
-    #     element = input$map_element,
-    #     scenario = input$map_scenario,
-    #     period = input$map_period,
-    #     resolution = "lonlat",
-    #     file = "mean.tif"
-    #   )
-    # })
 
     # Map ----
     output$map <- leaflet::renderLeaflet({
-      # legend_max <- MAPSTATS[
-      #   MAPSTATS$region == current_selections$region &
-      #     MAPSTATS$element == input$map_element &
-      #     MAPSTATS$scenario == input$map_scenario &
-      #     MAPSTATS$period == input$map_period,
-      #   "max"
-      # ]
-
       base_map() |>
-        # add_element(
-        #   url = url(),
-        #   palette_length = 50L,
-        #   palette_type = current_selections$palette,
-        #   opacity = current_selections$opacity,
-        #   max = legend_max
-        # ) |>
         leaflet::addPolygons(data = REGIONS[[1]], color = ~"darkblue", layerId = ~ID) |>
         leaflet::addMeasure(position = "topleft") |>
         htmlwidgets::onRender(
           "
-          function(el, x) {
-            this.on('baselayerchange', function(e) {
-              e.layer.bringToBack();
-            })
-          }
-        "
+        function(el, x) {
+          this.on('baselayerchange', function(e) {
+            e.layer.bringToBack();
+          })
+        }
+      "
         )
     })
 
     observeEvent(input$map_shape_click, {
-      # Update the select input with the clicked polygon's ID
+      ## Update the select input with the clicked polygon's ID
       updateSelectInput(session, "map_region", selected = input$map_shape_click$id)
     })
 
@@ -224,5 +187,69 @@ mod_map_server <- function(id, elements) {
           layerId = ~ paste0(NAME, " [", ID, "]")
         )
     })
+
+    status_df <- purrr::map_df(
+      .x = seq_len(nrow(REGIONS$ecoprovinces)),
+      .f = random_status_values
+    ) |>
+      dplyr::bind_rows()
+
+    ## TODO: populate similar table with real data
+    NRV_STATUS <- data.frame(
+      TYPE = "ecoprovinces",
+      ID = REGIONS$ecoprovinces$ID,
+      NAME = REGIONS$ecoprovinces$NAME
+    ) |>
+      dplyr::bind_cols(status_df)
+
+    nrv_status_df <- reactive({
+      req(input$map_region)
+
+      region_id <- stringr::str_extract(input$map_region, "(?<=\\[).*(?=\\])")
+      dplyr::filter(NRV_STATUS, ID == region_id)
+    })
+
+    output$nrv_status_within <- renderText({
+      dplyr::select(nrv_status_df(), STATUS_WITHIN) |> dplyr::pull() |> paste0("%")
+    })
+
+    output$nrv_status_marginal <- renderText({
+      dplyr::select(nrv_status_df(), STATUS_MARGINAL) |> dplyr::pull() |> paste0("%")
+    })
+
+    output$nrv_status_outside <- renderText({
+      dplyr::select(nrv_status_df(), STATUS_OUTSIDE) |> dplyr::pull() |> paste0("%")
+    })
+
+    output$nrv_status_waffle <- renderPlot(
+      {
+        req(nrv_status_df())
+
+        print(nrv_status_df())
+
+        nrv_status_df() |>
+          tidyr::pivot_longer(
+            cols = dplyr::starts_with("STATUS_"),
+            names_to = "STATUS",
+            names_prefix = "STATUS_",
+            names_transform = tolower,
+            values_to = "VALUE"
+          ) |>
+          dplyr::select(STATUS, VALUE) |>
+          waffle::waffle(
+            parts = _,
+            rows = 10,
+            size = 2,
+            colors = c("darkgreen", "goldenrod", "purple")
+          ) +
+          ggplot2::theme_void() +
+          ggplot2::theme(
+            # legend.key.size = ggplot2::unit(1, "cm"),
+            legend.position = "none",
+            plot.background = ggplot2::element_rect(fill = "transparent", color = NA)
+          )
+      },
+      bg = "transparent"
+    )
   })
 }

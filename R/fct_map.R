@@ -219,7 +219,6 @@ add_element <- function(
   return(m)
 }
 
-
 #' Create Side-by-Side Base Map
 #'
 #' @description `base_map2x()` creates *side-by-side* base leaflet maps
@@ -317,7 +316,7 @@ add_element2x <- function(
         root = paste0(get_golem_config("app_baseurl"), "api"),
         api_ver = "1",
         access = "public",
-        project = "wbi",
+        project = "forsite",
         region = region,
         kind = "elements",
         element = element,
@@ -337,7 +336,7 @@ add_element2x <- function(
         root = paste0(get_golem_config("app_baseurl"), "api"),
         api_ver = "1",
         access = "public",
-        project = "wbi",
+        project = "forsite",
         region = region,
         kind = "elements",
         element = element,

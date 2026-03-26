@@ -1,6 +1,6 @@
 Package: nrv.forsite.app
 Title: Shiny App For Exploring FORSITE NRV Simulation Outputs
-Version: 0.0.0.9000
+Version: 0.0.0.9001
 Authors@R: c(
     person(
       given = "Alex M.",
@@ -31,21 +31,28 @@ Description: Build and deploy FORSITE NRV shiny app.
 License: GPL (>= 2)
 Imports: 
     attempt,
+    bsicons,
     bslib,
     config,
     dplyr,
     echarts4r,
+    ggplot2,
     glue,
     golem,
+    grDevices,
     htmltools,
+    htmlwidgets,
     leafem,
     leaflet,
     leaflet.extras2,
     reactable,
     scales,
-    shiny
+    shiny,
+    stringr,
+    waffle
 Remotes:
-    FOR-CAST/nrvtools@development
+    FOR-CAST/nrvtools@development,
+    hrbrmstr/waffle
 Encoding: UTF-8
 LazyData: true
 LazyDataCompression: gzip

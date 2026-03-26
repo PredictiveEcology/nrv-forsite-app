@@ -2,8 +2,6 @@
 #'
 #' @param request Internal parameter for `{shiny}`.
 #'
-#' @importFrom bslib bs_theme font_google nav_panel page_navbar
-#' @import shiny
 #' @noRd
 app_ui <- function(request) {
   tagList(
